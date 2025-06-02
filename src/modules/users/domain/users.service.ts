@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { CreateUserDTO } from '../dto/create.user.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -103,5 +103,18 @@ export class UsersService {
   async delete(id: number): Promise<void> {
     const getUser = await this.findByUserId(id);
     await this.userRepository.delete(getUser.id);
+  }
+
+  async FindByName(name: string): Promise<User> {
+    const getUser = await this.userRepository.findOne({
+      where: { name: ILike(`${name}`) },
+    });
+
+
+    if (!getUser) {
+      throw new HttpException('user.not.found', HttpStatus.NOT_FOUND);
+    }
+
+    return getUser;
   }
 }

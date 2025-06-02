@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  Res,
+} from '@nestjs/common';
 import { UsersService } from '../domain/users.service';
 import { Response } from 'express';
 import { CreateUserDTO } from '../dto/create.user.dto';
@@ -36,13 +46,8 @@ export class UsersController {
   }
 
   @Delete(':id')
-  async deleteUser(
-    @Param('id') id: number,
-    @Res() response: Response,
-  ) {
-    return response
-      .status(200)
-      .json(await this.userService.delete(id));
+  async deleteUser(@Param('id') id: number, @Res() response: Response) {
+    return response.status(200).json(await this.userService.delete(id));
   }
 
   @Post('auth')
@@ -58,5 +63,10 @@ export class UsersController {
         .status(error.status || 500)
         .json({ message: error.message });
     }
+  }
+
+  @Get('')
+  async findByUserName(@Query('name') name: string, @Res() response: Response) {
+    return response.status(200).json(await this.userService.FindByName(name));
   }
 }

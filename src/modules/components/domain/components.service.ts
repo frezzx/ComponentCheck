@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Components } from '../entities/components.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { CreateComponentsDTO } from '../dto/create.components.dto';
 import { UsersService } from 'src/modules/users/domain/users.service';
 
@@ -44,5 +44,29 @@ export class ComponentsService {
     }
 
     return await this.componentsRepository.update(id, input);
+  }
+
+  async Delete(id: number): Promise<void> {
+    const performance = await this.componentsRepository.findOne({
+      where: { id: id },
+    });
+
+    if (!performance) {
+      throw new HttpException('component.not.found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.componentsRepository.remove(performance);
+  }
+
+  async FindByName(name: string): Promise<Components> {
+    const getComponent = await this.componentsRepository.findOne({
+      where: { name: ILike(`${name}`) },
+    });
+
+    if (!getComponent) {
+      throw new HttpException('component.not.found', HttpStatus.NOT_FOUND);
+    }
+
+    return getComponent;
   }
 }

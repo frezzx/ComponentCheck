@@ -69,6 +69,7 @@ export class CreateQuizStructureMigration1748580000000
             isGenerated: true,
             generationStrategy: 'increment',
           },
+          { name: 'urlImg', type: 'varchar' },
           { name: 'question', type: 'varchar' },
           { name: 'quizId', type: 'int' },
           {

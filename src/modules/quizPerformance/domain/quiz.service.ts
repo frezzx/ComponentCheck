@@ -246,8 +246,4 @@ export class QuizService {
     await this.quizPerformanceRepository.remove(performance);
   }
 
-  // async findUserByPerformance(): Promise<any> {
-  //   getUser = await this.userService.
-  //   return await
-  // }
 }

@@ -17,13 +17,14 @@ export class CreateUserTable1748571566686 implements MigrationInterface {
             name: 'name',
             type: 'varchar',
             length: '100',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'email',
             type: 'varchar',
             length: '50',
             isUnique: true,
+            isNullable: true
           },
           {
             name: 'role',

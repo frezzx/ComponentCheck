@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres  # Corrigido o sinal de igual
+      - POSTGRES_PASSWORD=postgres  
     logging:
       options:
         max-size: "10m"
@@ -13,5 +13,19 @@ services:
     ports:
       - '5435:5432'
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data  # Corrigido caminho
-      - ./create-database.sql:/docker-entrypoint-initdb.d/create-database.sql  # Corrigido nome do arquivo
+      - ./postgres-data:/var/lib/postgresql/data  
+      - ./create-database.sql:/docker-entrypoint-initdb.d/create-database.sql
+
+  app:
+    build: .
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: compcheck
+    ports:
+      - '3000:3000'

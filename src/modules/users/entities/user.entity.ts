@@ -21,11 +21,12 @@ export class User {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ name: 'name' })
+  @Column({ name: 'name',  })
   name: string;
 
   @Column({ name: 'email', unique: true })
   email: string;
+
 
   @Column({
     name: 'role',

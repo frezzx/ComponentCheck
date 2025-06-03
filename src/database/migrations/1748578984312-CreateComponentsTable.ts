@@ -67,6 +67,14 @@ export class CreateComponentsTable1748578984312 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    const table = await queryRunner.getTable('components');
+
+    const foreignKey = table?.foreignKeys.find(fk => fk.columnNames.indexOf('userId') !== -1);
+
+    if (foreignKey) {
+      await queryRunner.dropForeignKey('components', foreignKey);
+    }
+
     await queryRunner.dropTable('components');
   }
 }

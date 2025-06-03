@@ -14,18 +14,4 @@ services:
       - '5435:5432'
     volumes:
       - ./postgres-data:/var/lib/postgresql/data  
-      - ./create-database.sql:/docker-entrypoint-initdb.d/create-database.sql
-
-  app:
-    build: .
-    restart: always
-    depends_on:
-      - postgres
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: compcheck
-    ports:
-      - '3000:3000'
+      - ./create-database.sql:/docker-entrypoint-initdb.d/create-database.sql  
